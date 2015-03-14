@@ -8,4 +8,4 @@ clean:
 	rm -f lioness_test
 
 lioness_test:
-	$(CC) lioness_test.c lioness.c ext/chacha_krovetz.c ext/blake2/sse/blake2b.c -o $@ $(CFLAGS) $(OPTFLAGS)
+	$(CC) lioness_test.c lioness.c ext/chacha_krovetz_vec128.c ext/blake2/sse/blake2b.c -o $@ $(CFLAGS) $(OPTFLAGS)
