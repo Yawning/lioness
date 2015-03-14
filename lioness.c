@@ -56,7 +56,8 @@ lioness_free(lioness_t *s)
   free(s);
 }
 
-void lioness_encrypt_block(const lioness_t *s, uint8_t *out, const uint8_t *in)
+void
+lioness_encrypt_block(const lioness_t *s, uint8_t *out, const uint8_t *in)
 {
   const size_t l_sz = S_KEY_LEN;
   const size_t r_sz = s->block_sz - l_sz;
