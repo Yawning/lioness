@@ -1,0 +1,3 @@
+[submodule "ext/blake2"]
+	path = ext/blake2
+	url = https://github.com/BLAKE2/BLAKE2.git
