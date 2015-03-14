@@ -136,6 +136,8 @@ int chacha_stream_xor(
     #if ( __ARM_NEON__ || __SSE2__)
     kp = (unsigned *)k;
     np = (unsigned *)n;
+    (void)key;
+    (void)nonce;
     #else
     ((vec *)key)[0] = REVV_BE(((vec *)k)[0]);
     ((vec *)key)[1] = REVV_BE(((vec *)k)[1]);
