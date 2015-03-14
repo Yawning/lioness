@@ -7,7 +7,7 @@ bad LIONESS performance is with modern cryptographic primitives.
 
 Primitive implementations (./ext/):
  * The BLAKE2 reference implementation (https://github.com/BLAKE2/BLAKE2)
- * Ted Krovet's "vec128" ChaCha implementation from SUPERCOP.
+ * Ted Krovetz's "vec128" ChaCha implementation from SUPERCOP.
 
 Notes:
  * DO NOT USE THIS IN PRODUCTION CODE.
