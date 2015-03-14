@@ -3,7 +3,7 @@
  * Chacha is an improvement on the stream cipher Salsa, described at
  * http://cr.yp.to/papers.html#chacha
  */
-#include "crypto_stream.h"
+#include "chacha.h"
 #include <string.h>
 
 #ifndef CHACHA_RNDS
@@ -120,7 +120,7 @@ typedef unsigned vec __attribute__ ((vector_size (16)));
 *(vec *)(op + d +  8) = REVV_BE(v2);    \
 *(vec *)(op + d + 12) = REVV_BE(v3);
 
-int crypto_stream_xor(
+static int crypto_stream_xor(
         unsigned char *out,
         const unsigned char *in,
         unsigned long long inlen,
@@ -265,7 +265,7 @@ int crypto_stream_xor(
     return 0;
 }
 
-int crypto_stream(
+int chacha_crypto_stream(
                                   unsigned char *out,
                                   unsigned long long outlen,
                                   const unsigned char *n,
