@@ -10,7 +10,7 @@
 #include <assert.h>
 
 #include "lioness.h"
-#include "ext/chacha.h"
+#include "ext/chacha/chacha.h"
 #include "ext/blake2/sse/blake2.h"
 
 static void * (*volatile memset_volatile)(void *, int, size_t) = memset;
