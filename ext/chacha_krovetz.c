@@ -120,7 +120,7 @@ typedef unsigned vec __attribute__ ((vector_size (16)));
 *(vec *)(op + d +  8) = REVV_BE(v2);    \
 *(vec *)(op + d + 12) = REVV_BE(v3);
 
-static int crypto_stream_xor(
+int chacha_stream_xor(
         unsigned char *out,
         const unsigned char *in,
         unsigned long long inlen,
@@ -265,7 +265,8 @@ static int crypto_stream_xor(
     return 0;
 }
 
-int chacha_crypto_stream(
+#if 0
+int crypto_stream(
                                   unsigned char *out,
                                   unsigned long long outlen,
                                   const unsigned char *n,
@@ -275,3 +276,4 @@ int chacha_crypto_stream(
     memset(out,0,outlen);
     return crypto_stream_xor(out,out,outlen,n,k);
 }
+#endif

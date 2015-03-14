@@ -8,9 +8,14 @@
 #ifndef CHACHA_H_INCLUDED_
 #define CHACHA_H_INCLUDED_
 
-int chacha_crypto_stream(unsigned char *out,
-                         unsigned long long outlen,
-                         const unsigned char *n,
-                         const unsigned char *k);
+#define CHACHA_KEY_LEN (256/8)
+#define CHACHA_NONCE_LEN 8
+
+int chacha_stream_xor(
+        unsigned char *out,
+        const unsigned char *in,
+        unsigned long long inlen,
+        const unsigned char *n,
+        const unsigned char *k);
 
 #endif
