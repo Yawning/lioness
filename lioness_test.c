@@ -66,8 +66,10 @@ int main(int argc, char *argv[]) {
 		elapsed_ns += end.tv_nsec - start.tv_nsec;
 	}
   double secs = (double)elapsed_ns / 1000000000;
-  fprintf(stdout, "Elapsed: %f s (%f Bytes/s)\n", secs,
-          block_sz * max_iters / secs);
+  fprintf(stdout, "Elapsed: %f s (%f Bytes/s, %f ns/byte)\n",
+          secs,
+          block_sz * max_iters / secs,
+          (double)elapsed_ns/ (block_sz * max_iters));
 
   lioness_free(l);
 
