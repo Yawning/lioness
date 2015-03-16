@@ -65,9 +65,11 @@ lioness_encrypt_block(const lioness_t *s, uint8_t *out, const uint8_t *in)
   uint8_t l[l_sz];
   uint8_t *r = alloca(r_sz);
 
+  memcpy(r, in + l_sz, r_sz);
+
   /* R = R ^ S(L ^ K1) */
   xorbytes(tmp, in, s->k1, l_sz);
-  chacha_stream_xor(r, in + l_sz, r_sz, tmp + CHACHA_NONCE_LEN, tmp);
+  chacha_stream_xor(r, r, r_sz, tmp + CHACHA_NONCE_LEN, tmp);
   /* L = L ^ H(K2, R) */
   blake2b(tmp, r, s->k2, l_sz, r_sz, H_KEY_LEN);
   xorbytes(l, in, tmp, l_sz);
@@ -92,18 +94,14 @@ lioness_decrypt_block(const lioness_t *s, uint8_t *out, const uint8_t *in)
   uint8_t l[l_sz];
   uint8_t *r = alloca(r_sz);
 
+  memcpy(r, in + l_sz, r_sz);
+
   /* L = L ^ H(K4, R) */
-  blake2b(tmp, in + l_sz, s->k4, l_sz, r_sz, H_KEY_LEN);
+  blake2b(tmp, r, s->k4, l_sz, r_sz, H_KEY_LEN);
   xorbytes(l, in, tmp, l_sz);
   /* R = R ^ S(L ^ K3) */
   xorbytes(tmp, l, s->k3, S_KEY_LEN);
-#ifdef __SSSE3__
-  chacha_stream_xor(r, in + l_sz, r_sz, tmp + CHACHA_NONCE_LEN, tmp);
-#else
-  /* Force alignment to be right for the current ChaCha impl. */
-  memcpy(r, in + l_sz, r_sz);
   chacha_stream_xor(r, r, r_sz, tmp + CHACHA_NONCE_LEN, tmp);
-#endif
   /* L = L ^ H(K2, R) */
   blake2b(tmp, r, s->k2, l_sz, r_sz, H_KEY_LEN);
   xorbytes(l, l, tmp, l_sz);
