@@ -69,13 +69,13 @@ lioness_encrypt_block(const lioness_t *s, uint8_t *out, const uint8_t *in)
 
   /* R = R ^ S(L ^ K1) */
   xorbytes(tmp, in, s->k1, l_sz);
-  chacha_stream_xor(r, r, r_sz, tmp + CHACHA_NONCE_LEN, tmp);
+  chacha_stream_xor(r, r, r_sz, tmp, tmp + CHACHA_NONCE_LEN);
   /* L = L ^ H(K2, R) */
   blake2b(tmp, r, s->k2, l_sz, r_sz, H_KEY_LEN);
   xorbytes(l, in, tmp, l_sz);
   /* R = R ^ S(L ^ K3) */
   xorbytes(tmp, l, s->k3, S_KEY_LEN);
-  chacha_stream_xor(r, r, r_sz, tmp + CHACHA_NONCE_LEN, tmp);
+  chacha_stream_xor(r, r, r_sz, tmp, tmp + CHACHA_NONCE_LEN);
   /* L = L ^ H(K4, R) */
   blake2b(tmp, r, s->k4, l_sz, r_sz, H_KEY_LEN);
   xorbytes(l, l, tmp, l_sz);
@@ -101,13 +101,13 @@ lioness_decrypt_block(const lioness_t *s, uint8_t *out, const uint8_t *in)
   xorbytes(l, in, tmp, l_sz);
   /* R = R ^ S(L ^ K3) */
   xorbytes(tmp, l, s->k3, S_KEY_LEN);
-  chacha_stream_xor(r, r, r_sz, tmp + CHACHA_NONCE_LEN, tmp);
+  chacha_stream_xor(r, r, r_sz, tmp, tmp + CHACHA_NONCE_LEN);
   /* L = L ^ H(K2, R) */
   blake2b(tmp, r, s->k2, l_sz, r_sz, H_KEY_LEN);
   xorbytes(l, l, tmp, l_sz);
   /* R = R ^ S(L ^ K1) */
   xorbytes(tmp, l, s->k1, S_KEY_LEN);
-  chacha_stream_xor(r, r, r_sz, tmp + CHACHA_NONCE_LEN, tmp);
+  chacha_stream_xor(r, r, r_sz, tmp, tmp + CHACHA_NONCE_LEN);
 
   memcpy(out, l, l_sz);
   memcpy(out + l_sz, r, r_sz);
